@@ -4,14 +4,14 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem 
+} from 'reactstrap';
 
 class NavLinks extends Component {
 
@@ -30,12 +30,36 @@ class NavLinks extends Component {
     if (this.props.isAuthenticated) {
       return(
         <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/dashboard">Dashboard</NavLink>
-              </NavItem>
+              
+                <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav>
+                  <i className="ion-ios-notifications-outline icon-small" />
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                      <NavItem>
+                        <NavLink href="/">I love you dear!</NavLink>
+                      </NavItem>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Welcome - Onyekachi Goodnews
+                <DropdownToggle nav>
+                  <i className="ion-ios-mail-unread icon-small" />
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                      <NavItem>
+                        <NavLink href="/">I love you dear!</NavLink>
+                      </NavItem>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+    
+              <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav>
+                  Onyekachi <i className="ion-ios-contact icon-small" />
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
@@ -56,7 +80,9 @@ class NavLinks extends Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-            </Nav>
+            
+              </Nav>
+              
           
       )
     }else{
@@ -77,8 +103,7 @@ class NavLinks extends Component {
 
     return (
        <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">LOGO</NavbarBrand>
+        <Navbar color="transparent" light expand="md" className="bg-light-plus">
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             {this.renderLink()}

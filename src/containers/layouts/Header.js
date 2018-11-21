@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import NavLinks from 'components/layouts/navs/NavLinks';
+import NavLinks from 'containers/layouts/navs/NavLinks';
 
 class Header extends Component {
   render() {

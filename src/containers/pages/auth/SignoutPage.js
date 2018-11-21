@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import Header from 'components/layouts/Header';
+import Header from 'containers/layouts/Header';
 
 import * as actions from 'config/actions';
 class SignoutPage extends Component {

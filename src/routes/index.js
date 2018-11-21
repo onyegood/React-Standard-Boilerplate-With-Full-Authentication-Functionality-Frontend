@@ -1,10 +1,10 @@
 import React from 'react'
 import {Route} from 'react-router-dom';
-import HomePage from 'components/layouts/HomePage';
-import SigninPage from 'components/pages/auth/SigninPage';
-import SignupPage from 'components/pages/auth/SignupPage';
-import DashboardPage from 'components/pages/user/DashboardPage';
-import SignoutPage from 'components/pages/auth/SignoutPage';
+import HomePage from 'containers/layouts/HomePage';
+import SigninPage from 'containers/pages/auth/SigninPage';
+import SignupPage from 'containers/pages/auth/SignupPage';
+import DashboardPage from 'containers/pages/user/DashboardPage';
+import SignoutPage from 'containers/pages/auth/SignoutPage';
 
 const index =()=>{
   return (

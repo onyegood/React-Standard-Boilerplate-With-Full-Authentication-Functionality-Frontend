@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import {Card, Row, Label, Form, Button} from 'reactstrap';
-import AuthLinks from 'components/layouts/navs/authLinks';
+import AuthLinks from 'containers/layouts/navs/authLinks';
 import {reduxForm, Field} from 'redux-form';
 import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 class SigninPage extends Component {
 
-    onSubmit = (formProps) => {
-        this.props.signin(formProps, ()=> {
-            //this.props.history.push('/dashboard');
-            window.location = '/dashboard'
-        });
-    }
+  onSubmit = (formProps) => {
+     this.props.signin(formProps, ()=> {
+        //this.props.history.push('/dashboard');
+        window.location = '/dashboard'
+     });
+  }
 
   render() {
     
@@ -67,7 +67,7 @@ const validate = (values) => {
     const errors = {}
     if (!values.password) {
       errors.password = 'Password is required'
-    } else if (values.password.length > 5) {
+    } else if (values.password.length <= 5) {
       errors.password = 'Must be 5 characters or less'
     }
     if (!values.email) {
