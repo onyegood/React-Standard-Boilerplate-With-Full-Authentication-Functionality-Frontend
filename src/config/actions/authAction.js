@@ -1,5 +1,5 @@
 import { AUTH_USER} from 'config/types/authType';
-import {ERROR_MESSAGE, SUCCESS_MESSAGE, CLEAR_MESSAGE} from 'config/types/messageType';
+import {ERROR_MESSAGE, SUCCESS_MESSAGE} from 'config/types/messageType';
 import axios from 'axios';
 import { BASE_URL } from '../../url/BASE_URL';
 
@@ -16,17 +16,16 @@ export const signup = (formProps, callback) => async dispatch => {
             type:ERROR_MESSAGE, 
             payload: 'Email is already existing'
         })
-        
     }
-    
 }
 
 export const signin = (formProps, callback) => async dispatch => { 
     try {
         const response = await axios.post(BASE_URL+'signin', formProps);
-        dispatch({ type:AUTH_USER, payload: response.data.token });
+        dispatch({ type:AUTH_USER, payload: { token: response.data.token, user: response.data.admin } });
         dispatch({ type: SUCCESS_MESSAGE, payload: response.data.message });
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.admin));
         callback();
     } catch (error) {
         console.log('Error', error)
@@ -34,9 +33,7 @@ export const signin = (formProps, callback) => async dispatch => {
             type:ERROR_MESSAGE, 
             payload: 'Invalid login credentials!'
         })
-        
     }
-    
 }
 
 export const signout = () => dispatch => {

@@ -5,6 +5,7 @@ import {reduxForm, Field} from 'redux-form';
 import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
+import {toast} from 'react-toastify';
 class SigninPage extends Component {
 
   onSubmit = (formProps) => {
@@ -12,11 +13,18 @@ class SigninPage extends Component {
         //this.props.history.push('/dashboard');
         window.location = '/dashboard'
      });
+     setTimeout(() => {
+      toast(this.props.message, { type: toast.TYPE.ERROR });
+     }, 300);
+     
   }
 
   render() {
     
     const {handleSubmit} = this.props;
+    const {url} = this.props.match;
+
+    console.log('Props', this.props)
 
     return (
       <Row>
@@ -43,14 +51,16 @@ class SigninPage extends Component {
                     />
 
                     <br/>
-                    <p>{this.props.message}</p>
                     <Button
                         className="btn btn-success btn-block">
                         Signin
                     </Button>
-                    <hr/>
-                    <AuthLinks />
                 </Form>
+                <hr/>
+                <AuthLinks 
+                  userauth={url === '/signin' ? 'signup': 'signin'}
+                  forgotpass='Forgot Password'
+                />
             </Card>
         </div>
       </Row>
@@ -60,7 +70,7 @@ class SigninPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        message: state.message.message
+      message: state.message.message
     }
 }
 const validate = (values) => {
@@ -68,7 +78,7 @@ const validate = (values) => {
     if (!values.password) {
       errors.password = 'Password is required'
     } else if (values.password.length <= 5) {
-      errors.password = 'Must be 5 characters or less'
+      errors.password = 'Must be 5 characters or more'
     }
     if (!values.email) {
       errors.email = 'Email is required'

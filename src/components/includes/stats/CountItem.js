@@ -10,7 +10,12 @@ class CountItem extends Component {
         src: '',
         alt: '',
         title: '',
-        count: ''
+        count: '',
+        icon: '',
+        iconSize: '',
+        iconColor: '',
+        noIcon: false,
+        noImage: false
     }
     render(){
         return (
@@ -22,7 +27,17 @@ class CountItem extends Component {
                             <Col sm={{size: 3}}>
                             <img
                                 src={this.props.src} 
-                                alt={this.props.alt}/>
+                                alt={this.props.alt}
+                                style={{display: `${this.props.noImage ? 'none' : ''}`}}
+                                />
+                                <i 
+                                    className={`${this.props.icon}`} 
+                                    style={{
+                                        fontSize:`${this.props.iconSize}px`, 
+                                        color: `${this.props.iconColor}`,
+                                        display: `${this.props.noIcon ? 'none' : ''}`
+                                    }}
+                                />   
                             </Col>
                             <Col sm={{size: 8}} style={{margin: 0, padding: 0}}>
                             <p className="small">

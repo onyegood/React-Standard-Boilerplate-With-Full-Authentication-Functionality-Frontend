@@ -1,6 +1,6 @@
 /* On screens that are 992px or less, set the background color to blue */
 @media screen and (max-width: 992px) {
-    
+
   }
   
   /* On screens that are 600px or less, set the background color to olive */
@@ -15,5 +15,48 @@
         padding-top: 4%;
         padding-left: 4%;
         text-align: center;
+    }
+    .navbar.navbar-light {
+        display: none;
+    }
+
+    .mobile-nav{
+        min-height: 600px;
+        width: 50%;
+        background: #054a7e;
+        position: fixed;
+        z-index: 1;
+        height: 100%;
+        padding: 4%;
+    }
+    .user-avatar{
+
+    }
+    .mobile-nav-link ul li a{
+        color: #fff;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .mobile-nav-link .navbar-nav .dropdown-menu {
+        background: #004a82;
+    }
+    
+    .mobile-nav-link .dropdown-item:hover {
+        background-color: transparent;
+    }
+
+    .nav-switch {
+        min-height: 40px;
+        width: 100%;
+        border: 1px solid #CCCCCC;
+        background-color: #EBEBEB;
+        position: fixed;
+        z-index: 1;
+        padding-left: 20px;
+        padding-right: 20px; 
+    }
+    .breadcrub{
+        margin-top: 20%;
     }
   }

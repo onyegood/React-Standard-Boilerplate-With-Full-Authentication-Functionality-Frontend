@@ -1,19 +1,18 @@
 import React from 'react'
 import {NavLink} from 'reactstrap';
-const authLinks = ({props}) => {
+const authLinks = (props) => {
 
   return (
-    <ul className="list-group">
-        <li>
-            <NavLink href="/signup">Sign Up</NavLink>
-        </li>
-        <li>
-            <NavLink href="/signin">Sign In</NavLink>
-        </li>
-        <li>
-            <NavLink href="/">Forgot Password</NavLink>
-        </li>
-    </ul>
+    <div className="auth-links">
+        <ul>
+            <li>
+                <NavLink href={`/${props.userauth}`}>{props.userauth}</NavLink>
+            </li>
+            <li>
+                <NavLink href="/forgotpass">{props.forgotpass}</NavLink>
+            </li>
+        </ul>
+    </div>
   )
 }
 

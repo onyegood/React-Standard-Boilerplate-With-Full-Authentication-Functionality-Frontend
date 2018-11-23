@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import Header from 'containers/layouts/Header';
 import CountItem from 'components/includes/stats/CountItem';
 import BarChartComponent from 'components/includes/chartjs/BarChartComponent';
@@ -6,34 +8,36 @@ import DoughnutChartComponent from 'components/includes/chartjs/DoughnutChartCom
 import PieChartComponent from 'components/includes/chartjs/PieChartComponent';
 import SideNavBar from 'containers/layouts/navs/SideNavBar';
 import requireAuth from 'hoc/requireAuth';
-import Breadcrumb from 'components/includes/breadcrumbs';
-import Moment from 'react-moment';
-
-import {
-  Row,
-  Col,
-  Container,
-  Card,
-  CardBody,
-  CardHeader,
-  CardImg
-} from 'reactstrap';
-
+import Moment from 'react-moment'; 
+import {toast} from 'react-toastify';
+import { Row, Col, Container, Card, CardBody} from 'reactstrap';
+import { currency, number } from 'components/helpers';
+import {data, data2} from 'components/includes/db';
+import {barchartBG, bg2} from 'components/includes/chartjs/bg';
 
 class DashboardPage extends Component {
 
   state = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    values: [50, 10, 5, 2, 20, 30, 45],
-    bg: ["#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd","#0277bd"],
-    bg2: ["#2f9fd9","#0277bd"],
-    labels2: ["Male", "Female"],
-    values2: [500, 700]
+    labels: data.map(l => l.lebal),
+    values: data.map(v => v.value),
+    bg: barchartBG.map(b => b),
+    bg2: bg2.map(b => b),
+    labels2: data2.map(l => l.label),
+    values2: data2.map(v => v.value)
   }
-  render() {
 
+  componentWillMount = () => {
+    if (this.props.message !== undefined) {
+      setTimeout(() => {
+        toast(this.props.message, { type: toast.TYPE.SUCCESS });
+       }, 300);
+    }
+    
+  };
+  
+  render() {
+    
     const {path} = this.props.match;
-    console.log('Path', path.substr(path.lastIndexOf('/')))
 
     return (
       <div className="app-wrapper">
@@ -47,49 +51,67 @@ class DashboardPage extends Component {
             <Header />
             {/* Top Nav*/}
             
-            {/*Breadcrumb
-            <Breadcrumb />*/}
-
+            {/*Breadcrumb*/}
             <Container className="pt-4 pb-4 pl-4 pr-4">
                 <Row>
-                <Col md={{ size: 12 }}>
-                    <h5><strong>Dashboard</strong></h5>
+                <Col md={{ size: 12 }} className="breadcrub">
+                    <h5><strong>Home{path !== '/' ? path : null }</strong></h5>
                     <p className="small">Today is - 
                     <Moment format="DD, MMMM YYYY">{Date.now()}</Moment>
                     </p>
                 </Col>
                 </Row>
             </Container>
-
             {/*Breadcrumb*/}
+
             <Container className="pb-4 pl-4 pr-4">
               <Row>
                   <CountItem 
-                    src="assets/img/icons/ecommerce.svg"
-                    alt="ecommerce"
+                    src=""
+                    alt=""
+                    noImage={true}
+                    icon="ion-ios-cart"
+                    iconSize="42"
+                    iconColor="#91c9ff"
+                    noIcon={false}
                     title="Monthly sales"
-                    count="2000"
+                    count={currency.format(1030245)}
                   />
 
                   <CountItem 
-                    src="assets/img/icons/bar-chart.svg"
-                    alt="ecommerce"
+                    src=""
+                    alt=""
+                    noImage={true}
+                    icon="ion-ios-cash"
+                    iconSize="42"
+                    iconColor="#91c9ff"
+                    noIcon={false}
                     title="Monthly Profit"
-                    count="2000"
+                    count={currency.format(502013)}
                   />
 
                   <CountItem 
-                    src="assets/img/icons/calendar.svg"
-                    alt="ecommerce"
+                    src=""
+                    alt=""
+                    noImage={true}
+                    icon="ion-ios-podium"
+                    iconSize="42"
+                    iconColor="#91c9ff"
+                    noIcon={false}
                     title="Monthly Events"
-                    count="2000"
+                    count={number.format(20000)}
                   />
 
                   <CountItem 
-                    src="assets/img/icons/group.svg"
-                    alt="ecommerce"
+                    src=""
+                    alt=""
+                    noImage={true}
+                    icon="ion-ios-people"
+                    iconSize="42"
+                    iconColor="#91c9ff"
+                    noIcon={false}
                     title="Total Active User"
-                    count="2000"
+                    count={number.format(1500)}
                   />
               </Row>
 
@@ -105,6 +127,12 @@ class DashboardPage extends Component {
                       labels={this.state.labels}
                       values={this.state.values}
                       bg={this.state.bg}
+                      displayLegend={false}
+                      displayTitle={false}
+                      legendPosition='left'
+                      titleText='Distribution By Gender'
+                      titleFontSize={20}
+                      height={120}
                     />
                   </CardBody>
                 </Card>
@@ -115,10 +143,10 @@ class DashboardPage extends Component {
                   <CardBody>
                     <div className="stats">
                       <ul>
-                        <li>Total Sale &nbsp;&nbsp;&nbsp;&nbsp; 20,3355</li>
-                        <li>Total Profit &nbsp;&nbsp;&nbsp;&nbsp; 20,3355</li>
-                        <li>Total Lost &nbsp;&nbsp;&nbsp;&nbsp; 20,3355</li>
-                        <li>Total Stock &nbsp;&nbsp;&nbsp;&nbsp; 20,3355</li>
+                        <li>Total Sale &nbsp;&nbsp;&nbsp;&nbsp; {currency.format(203355)}</li>
+                        <li>Total Profit &nbsp;&nbsp;&nbsp;&nbsp; {currency.format(122445)}</li>
+                        <li>Total Lost &nbsp;&nbsp;&nbsp;&nbsp; {currency.format(10334)}</li>
+                        <li>Total Stock &nbsp;&nbsp;&nbsp;&nbsp; {currency.format(299445)}</li>
                       </ul>
                     </div>
                   </CardBody>
@@ -134,8 +162,14 @@ class DashboardPage extends Component {
                   <Card>
                     <CardBody>
                         <DoughnutChartComponent 
-                        labels={this.state.labels2}
-                        values={this.state.values2}
+                        labels={this.state.labels2} //Data source labels
+                        values={this.state.values2} //Data source Values
+                        displayLegend={true}
+                        displayTitle={false}
+                        legendPosition='right'
+                        titleText='Distribution By Gender'
+                        titleFontSize={20}
+                        height={120}
                         bg={this.state.bg2}
                       />
                     </CardBody>
@@ -146,8 +180,14 @@ class DashboardPage extends Component {
                     <Card>
                       <CardBody>
                           <PieChartComponent 
-                          labels={this.state.labels2}
-                          values={this.state.values2}
+                          labels={this.state.labels2} //Data source labels
+                          values={this.state.values2} //Data source Values
+                          displayLegend={true}
+                          displayTitle={false}
+                          legendPosition='right'
+                          titleText='Distribution By Gender'
+                          titleFontSize={20}
+                          height={120}
                           bg={this.state.bg2}
                         />
                       </CardBody>
@@ -162,6 +202,12 @@ class DashboardPage extends Component {
   }
 }
 
+const mapStateToProps =(state) => {
+  return {
+    message: state.message.message
+  }
+}
 
-
-export default requireAuth(DashboardPage)
+export default compose(
+  connect(mapStateToProps)
+)(requireAuth(DashboardPage))

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {NavLink} from 'react-router-dom';
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -38,7 +38,7 @@ class NavLinks extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink href="/">I love you dear!</NavLink>
+                        <NavLink to="/">I love you dear!</NavLink>
                       </NavItem>
                   </DropdownItem>
                 </DropdownMenu>
@@ -51,7 +51,7 @@ class NavLinks extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink href="/">I love you dear!</NavLink>
+                        <NavLink to="/">I love you dear!</NavLink>
                       </NavItem>
                   </DropdownItem>
                 </DropdownMenu>
@@ -64,17 +64,17 @@ class NavLinks extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink href="/">My Account</NavLink>
+                        <NavLink to="/">My Account</NavLink>
                       </NavItem>
                   </DropdownItem>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink href="/">Settings</NavLink>
+                        <NavLink to="/">Settings</NavLink>
                       </NavItem>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
-                    <NavLink href="/signout">
+                    <NavLink to="/signout">
                       Logout
                     </NavLink>
                   </DropdownItem>
@@ -89,10 +89,10 @@ class NavLinks extends Component {
       return (
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <NavLink href="/signup">Signup</NavLink>
+            <NavLink to="/signup">Signup</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/signin">Signin</NavLink>
+            <NavLink to="/signin">Signin</NavLink>
           </NavItem>
         </Nav>
       )

@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {Pie} from "react-chartjs-2";
 class PieChartComponent extends Component {
     static defaultProps = {
-        displayTitle: true,
-        displayLegend: true,
+        displayTitle: false,
+        displayLegend: false,
         legendPosition: 'right',
         titleText: '',
         titleFontSize: 25,

@@ -6,19 +6,18 @@ import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
-class SignupPage extends Component {
+class ResetPasswordPage extends Component {
 
-    onSubmit = (formProps) => {
-        this.props.signup(formProps, ()=> {
-            // this.props.history.push('/dashboard');
-            window.location = '/dashboard'
-        });
-        setTimeout(() => {
-          toast(this.props.message, { type: toast.TYPE.ERROR });
-         }, 300);
-    }
-
+  onSubmit = (formProps) => {
+     this.props.signin(formProps, ()=> {
+        //this.props.history.push('/dashboard');
+        window.location = '/dashboard'
+     });
+     setTimeout(() => {
+      toast(this.props.message, { type: toast.TYPE.ERROR });
+     }, 300);
      
+  }
 
   render() {
     
@@ -29,7 +28,7 @@ class SignupPage extends Component {
       <Row>
         <div className="col-md-4 mx-auto mt-4 p-4">
             <Card className="p-4">
-                <h3 className="text-center m-4">Sign up</h3>
+                <h3 className="text-center m-4">Reset Password</h3>
                 <Form onSubmit={handleSubmit(this.onSubmit)}>
                     <Label>Email</Label>
                     <Field 
@@ -37,6 +36,7 @@ class SignupPage extends Component {
                         type="text"
                         component={renderField}
                         autoComplete="none"
+                        className="form-control"
                     />
                     <br/>
                     <Label>Password</Label>
@@ -45,12 +45,13 @@ class SignupPage extends Component {
                         type="password"
                         component={renderField}
                         autoComplete="none"
+                        className="form-control"
                     />
 
                     <br/>
                     <Button
                         className="btn btn-success btn-block">
-                        Signup
+                        Signin
                     </Button>
                 </Form>
                 <hr/>
@@ -67,11 +68,9 @@ class SignupPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        message: state.message.message
+      message: state.message.message
     }
 }
-
-
 const validate = (values) => {
     const errors = {}
     if (!values.password) {
@@ -109,7 +108,7 @@ const renderField = ({
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({
-        form: 'signup',
+        form: 'signin',
         validate: validate
-    })
-)(SignupPage)
+})
+)(ResetPasswordPage)
