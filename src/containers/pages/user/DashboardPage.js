@@ -93,11 +93,11 @@ class DashboardPage extends Component {
                   <CountItem 
                     src=""
                     alt=""
-                    noImage={true}
+                    noImage={false}
                     icon="ion-ios-podium"
                     iconSize="42"
                     iconColor="#91c9ff"
-                    noIcon={false}
+                    noIcon={true}
                     title="Monthly Events"
                     count={number.format(20000)}
                   />

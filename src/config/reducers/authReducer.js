@@ -2,8 +2,7 @@
 import { AUTH_USER} from 'config/types/authType';
 
 const INITIAL_STATE = {
-    isAuthenticated: '',
-    user: {}
+    isAuthenticated: ''
  }
 
 export default (state = INITIAL_STATE, action) => {
@@ -12,7 +11,6 @@ export default (state = INITIAL_STATE, action) => {
         return {
             ...state,
             isAuthenticated: action.payload.token
-            
         }
         default:
             return state;
