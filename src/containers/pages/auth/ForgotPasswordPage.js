@@ -6,6 +6,7 @@ import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
+import guestPage from '../../../hoc/guestPage';
 class ForgotPasswordPage extends Component {
 
   state = {
@@ -20,9 +21,8 @@ class ForgotPasswordPage extends Component {
   
 
   onSubmit = (formProps) => {
-     this.props.forgotpassword(formProps, ()=> {
-        //this.props.history.push('/dashboard');
-        window.location = '/dashboard'
+     this.props.forgotPassword(formProps, ()=> {
+        this.props.history.push('/signin');
      });
      setTimeout(() => {
       toast(this.state.message, { type: toast.TYPE.ERROR });
@@ -108,4 +108,4 @@ export default compose(
         form: 'forgotpassword',
         validate: validate
 })
-)(ForgotPasswordPage)
+)(guestPage(ForgotPasswordPage));

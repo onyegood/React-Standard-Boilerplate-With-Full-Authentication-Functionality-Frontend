@@ -25,7 +25,11 @@ class NavLinks extends Component {
     });
   }
 
+  
   renderLink = () => {
+
+    const {user} = this.props;
+    let auth = JSON.parse(user);
 
     if (this.props.isAuthenticated) {
       return(
@@ -59,7 +63,9 @@ class NavLinks extends Component {
     
               <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav>
-                  Onyekachi <i className="ion-ios-contact icon-small" />
+                  { auth ? auth.firstName +' '+ auth.lastName : null }
+                  &nbsp;
+                  <i className="ion-ios-contact icon-small" />
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
@@ -80,10 +86,7 @@ class NavLinks extends Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-            
-              </Nav>
-              
-          
+            </Nav>
       )
     }else{
       return (
@@ -116,7 +119,8 @@ class NavLinks extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
   }
 }
 export default connect(mapStateToProps)(NavLinks)

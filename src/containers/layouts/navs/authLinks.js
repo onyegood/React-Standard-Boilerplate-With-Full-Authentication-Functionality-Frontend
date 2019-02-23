@@ -1,15 +1,16 @@
 import React from 'react'
-import {NavLink} from 'reactstrap';
+// import {NavLink} from 'reactstrap';
+import {Link} from 'react-router-dom';
 const authLinks = (props) => {
 
   return (
     <div className="auth-links">
         <ul>
             <li>
-                <NavLink href={`/${props.userauth}`}>{props.userauth}</NavLink>
+                <Link to={`/${props.userauth}`}>{props.userauth}</Link>
             </li>
             <li>
-                <NavLink href="/forgotpass">{props.forgotpass}</NavLink>
+                <Link to="/forgotpass">{props.forgotpass}</Link>
             </li>
         </ul>
     </div>

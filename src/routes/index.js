@@ -18,7 +18,7 @@ const index =()=>{
             <Route exact path="/signin" component={SigninPage} />
             <Route exact path="/signout" component={SignoutPage} />
             <Route exact path="/forgotpass" component={ForgotPasswordPage} />
-            <Route exact path="/reset" component={ResetPasswordPage} />
+            <Route exact path="/reset-password/:id/:token" component={ResetPasswordPage} />
             <Route component={PageNotFound} />
         </Switch>
   )

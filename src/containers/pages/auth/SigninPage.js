@@ -6,12 +6,13 @@ import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
+import guestPage from '../../../hoc/guestPage';
 class SigninPage extends Component {
 
   onSubmit = (formProps) => {
      this.props.signin(formProps, ()=> {
-        //this.props.history.push('/dashboard');
-        window.location = '/dashboard'
+        this.props.history.push('/dashboard');
+        
      });
      setTimeout(() => {
       toast(this.props.message, { type: toast.TYPE.ERROR });
@@ -23,8 +24,6 @@ class SigninPage extends Component {
     
     const {handleSubmit} = this.props;
     const {url} = this.props.match;
-
-    console.log('Props', this.props)
 
     return (
       <Row>
@@ -113,4 +112,4 @@ export default compose(
         form: 'signin',
         validate: validate
 })
-)(SigninPage)
+)(guestPage(SigninPage))

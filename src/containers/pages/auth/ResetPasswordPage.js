@@ -6,13 +6,24 @@ import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
+import guestPage from '../../../hoc/guestPage';
 class ResetPasswordPage extends Component {
 
+  
   onSubmit = (formProps) => {
-     this.props.signin(formProps, ()=> {
-        //this.props.history.push('/dashboard');
-        window.location = '/dashboard'
+
+    const {id, token} = this.props.match.params;
+
+    const params = {
+      userId: id,
+      passwordToken: token,
+      password: formProps.password
+    }
+  
+     this.props.resetPassword(params, ()=> {
+        this.props.history.push('/signin');
      });
+
      setTimeout(() => {
       toast(this.props.message, { type: toast.TYPE.ERROR });
      }, 300);
@@ -30,18 +41,18 @@ class ResetPasswordPage extends Component {
             <Card className="p-4">
                 <h3 className="text-center m-4">Reset Password</h3>
                 <Form onSubmit={handleSubmit(this.onSubmit)}>
-                    <Label>Email</Label>
+                    <Label>Password</Label>
                     <Field 
-                        name="email"
-                        type="text"
+                        name="password"
+                        type="password"
                         component={renderField}
                         autoComplete="none"
                         className="form-control"
                     />
                     <br/>
-                    <Label>Password</Label>
+                    <Label>Confirm Password</Label>
                     <Field 
-                        name="password"
+                        name="confirmPassword"
                         type="password"
                         component={renderField}
                         autoComplete="none"
@@ -54,6 +65,7 @@ class ResetPasswordPage extends Component {
                         Signin
                     </Button>
                 </Form>
+                
                 <hr/>
                 <AuthLinks 
                   userauth={url === '/signin' ? 'signup': 'signin'}
@@ -78,10 +90,10 @@ const validate = (values) => {
     } else if (values.password.length <= 5) {
       errors.password = 'Must be 5 characters or more'
     }
-    if (!values.email) {
-      errors.email = 'Email is required'
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = 'Invalid email address'
+    if (!values.password) {
+      errors.password = 'Password is required'
+    } else if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = "Password didn't match"
     }
     return errors
     
@@ -95,7 +107,6 @@ const renderField = ({
     meta: { touched, error, warning }
   }) => (
     <div>
-      {/*<Label>{label}</Label>*/}
       <div>
         <input {...input} placeholder={label} type={type} className="form-control" />
         {touched &&
@@ -111,4 +122,4 @@ export default compose(
         form: 'signin',
         validate: validate
 })
-)(ResetPasswordPage)
+)(guestPage(ResetPasswordPage))

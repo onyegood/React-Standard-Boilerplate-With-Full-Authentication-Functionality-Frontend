@@ -6,12 +6,23 @@ import * as actions from 'config/actions';
 import {compose} from 'redux';
 import { connect } from 'react-redux';
 import {toast} from 'react-toastify';
+import guestPage from '../../../hoc/guestPage';
 class SignupPage extends Component {
 
     onSubmit = (formProps) => {
-        this.props.signup(formProps, ()=> {
-            // this.props.history.push('/dashboard');
-            window.location = '/dashboard'
+        const data = {
+          firstName: formProps.firstName,
+          middleName: formProps.middleName,
+          lastName: formProps.lastName,
+          gender: formProps.gender,
+          phone: formProps.phone,
+          email: formProps.email,
+          password: formProps.password,
+          role: '5c70324dfce1a922bef32474'
+        }
+        this.props.signup(data, ()=> {
+            // this.props.history.push('/signin');
+            window.location = "/dashboard"
         });
         setTimeout(() => {
           toast(this.props.message, { type: toast.TYPE.ERROR });
@@ -31,6 +42,48 @@ class SignupPage extends Component {
             <Card className="p-4">
                 <h3 className="text-center m-4">Sign up</h3>
                 <Form onSubmit={handleSubmit(this.onSubmit)}>
+                   <Label>First Name</Label>
+                    <Field 
+                        name="firstName"
+                        type="text"
+                        component={renderField}
+                        autoComplete="none"
+                    />
+                    <br/>
+                    <Label>Middle Name</Label>
+                    <Field 
+                        name="middleName"
+                        type="text"
+                        component={renderField}
+                        autoComplete="none"
+                    />
+                    <br/>
+                    <Label>Last Name</Label>
+                    <Field 
+                        name="lastName"
+                        type="text"
+                        component={renderField}
+                        autoComplete="none"
+                    />
+                    <br/>
+                    <Label>Gender</Label>
+                    <Field 
+                        name="gender" 
+                        component={'select'}
+                        className="form-control">
+                      <option />
+                      <option value="ff0000">Male</option>
+                      <option value="00ff00">Female</option>
+                    </Field>
+                    <br/>
+                    <Label>Phone</Label>
+                    <Field 
+                        name="phone"
+                        type="text"
+                        component={renderField}
+                        autoComplete="none"
+                    />
+                    <br/>
                     <Label>Email</Label>
                     <Field 
                         name="email"
@@ -74,11 +127,26 @@ const mapStateToProps = state => {
 
 const validate = (values) => {
     const errors = {}
-    if (!values.password) {
-      errors.password = 'Password is required'
-    } else if (values.password.length <= 5) {
-      errors.password = 'Must be 5 characters or more'
+    if (!values.firstName) {
+      errors.firstName = 'First Name is required'
+    }else if (!values.middleName) {
+      errors.middleName = 'Middle Name is required'
+    }else if (!values.lastName) {
+      errors.lastName = 'Last Name is required'
+    }else if (!values.gender) {
+      errors.gender = 'Gender is required'
+    }else if (!values.phone) {
+      errors.phone = 'Phone is required'
     }
+    // else if (!values.phone.length <= 10) {
+    //   errors.phone = 'Must be less than 11 digits'
+    // }else if (!values.phone.length >= 13) {
+    //   errors.phone = 'Must be more than 13 digits'
+    // }else if (!values.password) {
+    //   errors.password = 'Password is required'
+    // } else if (values.password.length <= 5) {
+    //   errors.password = 'Must be 5 characters or more'
+    // }
     if (!values.email) {
       errors.email = 'Email is required'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -112,4 +180,4 @@ export default compose(
         form: 'signup',
         validate: validate
     })
-)(SignupPage)
+)(guestPage(SignupPage))
