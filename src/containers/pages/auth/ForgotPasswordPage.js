@@ -10,23 +10,27 @@ import guestPage from '../../../hoc/guestPage';
 class ForgotPasswordPage extends Component {
 
   state = {
-    message: ''
+    isProcessing: false
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.message) {
-      this.setState({message: nextProps.message});
-    }
-  };
-  
-
   onSubmit = (formProps) => {
-     this.props.forgotPassword(formProps, ()=> {
-        this.props.history.push('/signin');
-     });
+    this.setState({ isProcessing: true });
+     this.props.forgotPassword(formProps);
      setTimeout(() => {
-      toast(this.state.message, { type: toast.TYPE.ERROR });
-     }, 300);
+      const { message } = this.props;
+      if (message.success) {
+        toast(message.message, { type: toast.TYPE.SUCCESS });
+        this.setState({ isProcessing: false });
+        this.props.history.push('/signin');
+          }else{
+            toast(message.message.message, { type: toast.TYPE.ERROR });
+            this.setState({ isProcessing: false });
+          }
+      }, 2000);
+
+      setTimeout(() => {
+          this.props.clearMessage();
+      }, 3000);  
      
   }
 
@@ -34,6 +38,7 @@ class ForgotPasswordPage extends Component {
     
     const {handleSubmit} = this.props;
     const {url} = this.props.match;
+    const {isProcessing} = this.props;
 
     return (
       <Row>
@@ -51,10 +56,18 @@ class ForgotPasswordPage extends Component {
                     />
 
                     <br/>
+                    {
+                      isProcessing ?
+                        <span
+                          className="btn btn-success btn-block">
+                          <i className="fa fa-spinner fa-spin" /> processing...
+                      </span>
+                    :
                     <Button
                         className="btn btn-success btn-block">
                         Submit
                     </Button>
+                    }
                 </Form>
                 <hr/>
                 <AuthLinks 

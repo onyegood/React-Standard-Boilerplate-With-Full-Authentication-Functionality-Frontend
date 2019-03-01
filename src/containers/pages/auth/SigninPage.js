@@ -9,21 +9,36 @@ import {toast} from 'react-toastify';
 import guestPage from '../../../hoc/guestPage';
 class SigninPage extends Component {
 
+  state = {
+    isProcessing: false
+  }
   onSubmit = (formProps) => {
-     this.props.signin(formProps, ()=> {
-        this.props.history.push('/dashboard');
-        
-     });
+
+    this.setState({ isProcessing: true });
+    this.props.signin(formProps);
      setTimeout(() => {
-      toast(this.props.message, { type: toast.TYPE.ERROR });
-     }, 300);
-     
+          const { message } = this.props;
+          if (message.success) {
+            this.setState({ isProcessing: false });
+            window.location = "/signin";
+            // window.location.reload();
+          }else{
+            toast(message.message, { type: toast.TYPE.ERROR });
+            this.setState({ isProcessing: false });
+          }
+      }, 2000);
+
+      setTimeout(() => {
+          this.props.clearMessage();
+      }, 3000);
+
   }
 
   render() {
     
     const {handleSubmit} = this.props;
     const {url} = this.props.match;
+    const {isProcessing} = this.state;
 
     return (
       <Row>
@@ -50,10 +65,18 @@ class SigninPage extends Component {
                     />
 
                     <br/>
+                    {
+                      isProcessing ?
+                        <span
+                          className="btn btn-success btn-block">
+                          <i className="fa fa-spinner fa-spin" /> processing...
+                      </span>
+                    :
                     <Button
                         className="btn btn-success btn-block">
                         Signin
                     </Button>
+                    }
                 </Form>
                 <hr/>
                 <AuthLinks 
@@ -69,7 +92,7 @@ class SigninPage extends Component {
 
 const mapStateToProps = state => {
     return {
-      message: state.message.message
+      message: state.message
     }
 }
 const validate = (values) => {

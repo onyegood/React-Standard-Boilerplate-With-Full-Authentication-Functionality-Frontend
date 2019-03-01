@@ -9,24 +9,34 @@ import {toast} from 'react-toastify';
 import guestPage from '../../../hoc/guestPage';
 class ResetPasswordPage extends Component {
 
-  
+  state = {
+    isProcessing: false
+  }
   onSubmit = (formProps) => {
-
     const {id, token} = this.props.match.params;
-
     const params = {
       userId: id,
       passwordToken: token,
       password: formProps.password
     }
   
-     this.props.resetPassword(params, ()=> {
-        this.props.history.push('/signin');
-     });
-
+    this.setState({ isProcessing: true });
+    this.props.resetPassword(params);
      setTimeout(() => {
-      toast(this.props.message, { type: toast.TYPE.ERROR });
-     }, 300);
+      const { message } = this.props;
+      if (message.success) {
+        toast(message.message, { type: toast.TYPE.SUCCESS });
+        this.setState({ isProcessing: false });
+        this.props.history.push('/signin');
+          }else{
+            toast(message.message.message, { type: toast.TYPE.ERROR });
+            this.setState({ isProcessing: false });
+          }
+      }, 2000);
+
+      setTimeout(() => {
+          this.props.clearMessage();
+      }, 3000);  
      
   }
 
@@ -34,6 +44,7 @@ class ResetPasswordPage extends Component {
     
     const {handleSubmit} = this.props;
     const {url} = this.props.match;
+    const {isProcessing} = this.props;
 
     return (
       <Row>
@@ -60,10 +71,18 @@ class ResetPasswordPage extends Component {
                     />
 
                     <br/>
+                    {
+                      isProcessing ?
+                        <span
+                          className="btn btn-success btn-block">
+                          <i className="fa fa-spinner fa-spin" /> processing...
+                      </span>
+                    :
                     <Button
                         className="btn btn-success btn-block">
                         Signin
                     </Button>
+                    }
                 </Form>
                 
                 <hr/>

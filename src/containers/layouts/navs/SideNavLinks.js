@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from 'config/actions';
 import {
     Nav,
     NavItem,
@@ -9,8 +11,11 @@ import {
     DropdownItem
 } from 'reactstrap';
 class SideNavLink extends Component {
-  render() {
-    return (
+
+  renderLink = () => {
+    const {user} = this.props;
+    if (this.props.isAuthenticated) {
+      return(
         <Nav className="ml-auto" navbar>
         <NavItem>
           <NavLink to="/dashboard">
@@ -49,9 +54,53 @@ class SideNavLink extends Component {
                 </DropdownItem>
               </DropdownMenu>
         </UncontrolledDropdown>
-    </Nav>
+        <div className="side-bar-logout">
+          <NavItem>
+              <NavLink to="/signout">
+                <i className="icon-small text-white ion-ios-log-out" /> 
+                &nbsp;&nbsp;
+                Logout
+            </NavLink>
+          </NavItem>
+        </div>
+    </Nav>)
+    }else{
+      return (
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <i className="icon-small text-white ion-ios-home" />
+            &nbsp;&nbsp;
+            <NavLink to="/">Home</NavLink>
+          </NavItem>
+          <NavItem>
+            <i className="icon-small text-white ion-ios-log-out" />
+            &nbsp;&nbsp;
+            <NavLink to="/signup">Signup</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/signin">
+            <i className="icon-small text-white ion-ios-log-in"/>
+            &nbsp;&nbsp;
+            Signin
+            </NavLink>
+          </NavItem>
+        </Nav>
+      )
+    }
+  }
+  render() {
+    return (
+      <div>
+        {this.renderLink()}
+      </div>
     )
   }
 }
 
-export default SideNavLink;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.user.user
+  }
+}
+export default connect(mapStateToProps, actions)(SideNavLink)

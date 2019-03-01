@@ -27,12 +27,7 @@ class DashboardPage extends Component {
   }
 
   componentWillMount = () => {
-    if (this.props.message !== undefined) {
-      setTimeout(() => {
-        toast(this.props.message, { type: toast.TYPE.SUCCESS });
-       }, 300);
-    }
-    
+
   };
   
   render() {
@@ -204,7 +199,7 @@ class DashboardPage extends Component {
 
 const mapStateToProps =(state) => {
   return {
-    message: state.message.message
+    
   }
 }
 

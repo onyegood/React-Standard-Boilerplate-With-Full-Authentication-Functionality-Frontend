@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {NavLink} from 'react-router-dom';
+import * as actions from 'config/actions';
 import {
   Collapse,
   Navbar,
@@ -12,6 +13,8 @@ import {
   DropdownMenu,
   DropdownItem 
 } from 'reactstrap';
+
+import setAuthorizationHeader from 'utils/setAuthorizationHeader';
 
 class NavLinks extends Component {
 
@@ -25,16 +28,24 @@ class NavLinks extends Component {
     });
   }
 
-  
+  componentDidMount() {
+    
+    setTimeout(() => {
+      if (localStorage.token) {
+            // Set Authorization Header Globally
+             setAuthorizationHeader(localStorage.token);
+             this.props.currentUser();
+           }
+      }, 200);
+  }
+
   renderLink = () => {
 
     const {user} = this.props;
-    let auth = JSON.parse(user);
 
     if (this.props.isAuthenticated) {
       return(
         <Nav className="ml-auto" navbar>
-              
                 <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav>
                   <i className="ion-ios-notifications-outline icon-small" />
@@ -42,7 +53,7 @@ class NavLinks extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink to="/">I love you dear!</NavLink>
+                        <NavLink to="/">Notifications here!</NavLink>
                       </NavItem>
                   </DropdownItem>
                 </DropdownMenu>
@@ -55,7 +66,7 @@ class NavLinks extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                       <NavItem>
-                        <NavLink to="/">I love you dear!</NavLink>
+                        <NavLink to="/">Mail here!</NavLink>
                       </NavItem>
                   </DropdownItem>
                 </DropdownMenu>
@@ -63,7 +74,7 @@ class NavLinks extends Component {
     
               <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav>
-                  { auth ? auth.firstName +' '+ auth.lastName : null }
+                  { user ? user.firstName +' '+ user.lastName : 'loading...' }
                   &nbsp;
                   <i className="ion-ios-contact icon-small" />
                 </DropdownToggle>
@@ -120,8 +131,8 @@ class NavLinks extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
+    user: state.user.user
   }
 }
-export default connect(mapStateToProps)(NavLinks)
+export default connect(mapStateToProps, actions)(NavLinks)
 

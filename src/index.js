@@ -6,7 +6,6 @@ import Root from 'config/store';
 import 'bootstrap/dist/css/bootstrap.css';
 import MainRoutes from 'routes';
 
-
 ReactDOM.render(
     <Root>
         <BrowserRouter>

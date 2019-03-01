@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Card, Row, Label, Form, Button} from 'reactstrap';
+import {Card, Row, Label, Form, Button, Col} from 'reactstrap';
 import AuthLinks from 'containers/layouts/navs/authLinks';
 import {reduxForm, Field} from 'redux-form';
 import * as actions from 'config/actions';
@@ -9,7 +9,11 @@ import {toast} from 'react-toastify';
 import guestPage from '../../../hoc/guestPage';
 class SignupPage extends Component {
 
+    state = {
+      isProcessing: false
+    }
     onSubmit = (formProps) => {
+        this.setState({ isProcessing: true });
         const data = {
           firstName: formProps.firstName,
           middleName: formProps.middleName,
@@ -20,21 +24,31 @@ class SignupPage extends Component {
           password: formProps.password,
           role: '5c70324dfce1a922bef32474'
         }
-        this.props.signup(data, ()=> {
-            // this.props.history.push('/signin');
-            window.location = "/dashboard"
-        });
-        setTimeout(() => {
-          toast(this.props.message, { type: toast.TYPE.ERROR });
-         }, 300);
+        
+        this.props.signup(data);
+            setTimeout(() => {
+              const { message } = this.props;
+              if (message.success) {
+                toast(message.message, { type: toast.TYPE.SUCCESS });
+                this.setState({ isProcessing: false });
+                this.props.history.push('/signin');
+                // window.location = "/signin";
+              }else{
+                toast(message.message.message, { type: toast.TYPE.ERROR });
+                this.setState({ isProcessing: false });
+              }
+          }, 2000);
+      
+          setTimeout(() => {
+              this.props.clearMessage();
+          }, 3000);      
     }
-
-     
 
   render() {
     
     const {handleSubmit} = this.props;
     const {url} = this.props.match;
+    const {isProcessing} = this.state;
 
     return (
       <Row>
@@ -42,6 +56,10 @@ class SignupPage extends Component {
             <Card className="p-4">
                 <h3 className="text-center m-4">Sign up</h3>
                 <Form onSubmit={handleSubmit(this.onSubmit)}>
+
+
+                <Row>
+                  <Col md={6}>
                    <Label>First Name</Label>
                     <Field 
                         name="firstName"
@@ -49,7 +67,9 @@ class SignupPage extends Component {
                         component={renderField}
                         autoComplete="none"
                     />
-                    <br/>
+                  </Col>
+
+                  <Col md={6}>
                     <Label>Middle Name</Label>
                     <Field 
                         name="middleName"
@@ -57,6 +77,10 @@ class SignupPage extends Component {
                         component={renderField}
                         autoComplete="none"
                     />
+                  </Col>
+
+
+                  </Row>
                     <br/>
                     <Label>Last Name</Label>
                     <Field 
@@ -101,10 +125,18 @@ class SignupPage extends Component {
                     />
 
                     <br/>
-                    <Button
+                    {
+                      isProcessing ?
+                        <span
+                          className="btn btn-success btn-block">
+                          <i className="fa fa-spinner fa-spin" /> processing...
+                      </span>
+                    :
+                      <Button
                         className="btn btn-success btn-block">
-                        Signup
+                        <i className="fa fa-user" /> Signup
                     </Button>
+                  }
                 </Form>
                 <hr/>
                 <AuthLinks 

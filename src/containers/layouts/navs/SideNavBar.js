@@ -11,7 +11,7 @@ class SideNavBar extends Component {
           <div className="brand-logo text-white">
             <NavbarBrand />
           </div>
-          <SideNavLink />
+            <SideNavLink />
         </div>
     )
   }

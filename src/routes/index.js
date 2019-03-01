@@ -8,7 +8,7 @@ import SignoutPage from 'containers/pages/auth/SignoutPage';
 import ForgotPasswordPage from 'containers/pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/pages/auth/ResetPasswordPage';
 import PageNotFound from 'containers/pages/404/PageNotFound';
-
+import NetworkDictator from '../hoc/networkDictator'
 const index =()=>{
   return (
         <Switch>
@@ -23,4 +23,4 @@ const index =()=>{
         </Switch>
   )
 }
-export default index;
+export default NetworkDictator(index);

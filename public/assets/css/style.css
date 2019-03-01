@@ -141,3 +141,13 @@
 .auth-links ul li a:hover{
     color: #004a82;
 }
+.side-bar-logout {
+    position: absolute;
+    top: 90%;
+}
+.internet-error {
+    text-align: center;
+    font-size: 15px;
+    background: red;
+    color: #fff !important;
+}

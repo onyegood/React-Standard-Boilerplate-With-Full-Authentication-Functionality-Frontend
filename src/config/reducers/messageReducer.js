@@ -1,6 +1,6 @@
 import { ERROR_MESSAGE, SUCCESS_MESSAGE, CLEAR_MESSAGE} from 'config/types/messageType';
 
-export default (state = {}, action) => {
+export default (state = { success: false }, action) => {
     switch (action.type) {
         case ERROR_MESSAGE:
             return {
@@ -15,7 +15,8 @@ export default (state = {}, action) => {
         case CLEAR_MESSAGE:
         return {
             ...state,
-            message: ''
+            message: '',
+            success: false
         }
         default:
             return state;
