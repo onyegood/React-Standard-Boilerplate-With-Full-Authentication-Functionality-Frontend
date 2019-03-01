@@ -15,7 +15,8 @@ export default ({
   const store = createStore(
     reducers, 
     initialState,
-    composeWithDevTools(applyMiddleware(logger, reduxThunk))
+    // composeWithDevTools(applyMiddleware(logger, reduxThunk)) //Uncomment for development environment
+    applyMiddleware(reduxThunk) //Use for production environment
   );
 
   return (
