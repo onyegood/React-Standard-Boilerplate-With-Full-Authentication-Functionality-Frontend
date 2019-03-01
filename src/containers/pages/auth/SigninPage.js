@@ -28,9 +28,11 @@ class SigninPage extends Component {
           }
       }, 2000);
 
-      setTimeout(() => {
-          this.props.clearMessage();
-      }, 3000);
+      console.log('Message', this.message)
+
+      // setTimeout(() => {
+      //   this.props.clearMessage();
+      // }, 4000);
 
   }
 
